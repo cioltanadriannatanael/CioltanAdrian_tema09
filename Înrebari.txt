@@ -1,0 +1,35 @@
+1. Utilizați pentru texturare imagini cu transparență și fără. Ce observați?
+
+Când se folosesc imagini fără transparență (ex. JPG, BMP), textura acoperă obiectul complet, fără zone transparente. Obiectul apare opac, iar conturul texturii este identic cu conturul geometric al poligonului.
+
+Când se folosesc imagini cu transparență (ex. PNG cu canal alpha), zonele transparente ale imaginii devin invizibile, iar zonele semi-transparente permit vizualizarea obiectelor din spatele lor. Pentru ca transparența să funcționeze corect este necesară activarea blending-ului în OpenGL. Astfel, obiectul texturat poate avea părți decupate sau efecte vizuale de transparență.
+
+2. Ce formate de imagine pot fi aplicate în procesul de texturare în OpenGL?
+
+OpenGL nu folosește direct fișiere de tip imagine, ci doar date brute (pixeli). Prin urmare, orice format de imagine poate fi folosit atâta timp cât biblioteca de încărcare (ex. Bitmap în .NET) poate extrage pixelii. În practică sunt folosite:
+
+Formate fără transparență: JPG, BMP.
+
+Formate cu transparență (canal alpha): PNG, TGA.
+
+Alte formate utilizabile prin biblioteci externe: GIF, TIFF, DDS.
+
+Astfel, majoritatea formatelor standard pot fi folosite în texturare, cu condiția să poată fi convertite în date RGB sau RGBA.
+
+3. Specificați ce se întâmplă atunci când se modifică culoarea (prin manipularea canalelor RGB) obiectului texturat.
+
+Culoarea setată pentru obiect se combină cu culoarea texturii conform modului de texturare (implicit: modulate). Astfel, valoarea finală a fiecărui pixel este rezultatul înmulțirii componentelor RGB ale texturii cu cele ale culorii obiectului:
+
+Dacă obiectul este colorat alb (1,1,1), textura păstrează culorile originale.
+
+Dacă se reduce una sau mai multe componente (ex. doar canalul roșu), textura capătă o tentă de culoare corespunzătoare.
+
+Dacă culoarea obiectului este foarte închisă, textura devine mai întunecată.
+
+În concluzie, modificarea culorii obiectului afectează vizibil aspectul texturii, ducând la schimbarea nuanței, luminozității sau intensității acesteia.
+
+4. Ce deosebiri există între scena ce utilizează obiecte texturate în modul iluminare activat, respectiv dezactivat?
+
+Când iluminarea este dezactivată, textura apare cu culorile ei originale, fără umbre sau efecte de lumină. Obiectele par plate, iar textura este aplicată uniform pe întreaga suprafață.
+
+Când iluminarea este activată, textura interacționează cu sursele de lumină din scenă. Astfel apar umbre, zone luminoase, reflexii și variații de intensitate. Textura devine influențată de poziția, direcția și culoarea luminii, oferind un aspect mai realist și tridimensional scenei.
